@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-PROJECT_NAME           ?=app
+PROJECT_NAME           ?=Raytris
 RAYLIB_VERSION         ?=4.5.0
 RAYLIB_PATH            ?=C:/raylib/raylib
 COMPILER_PATH          ?=C:/raylib/w64devkit/bin

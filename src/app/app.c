@@ -8,7 +8,7 @@ void appMain()
 	const int screenWidth = WINDOW_WIDTH;
     const int screenHeight = WINDOW_HEIGHT;
 
-    InitWindow(screenWidth, screenHeight, "AppTemplate - Basic Window");
+    InitWindow(screenWidth, screenHeight, "Raytris - Basic Window");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

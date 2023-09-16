@@ -8,7 +8,7 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/app",
+            "program": "${workspaceFolder}/bin/Raytris",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -39,14 +39,14 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            "program": "${workspaceFolder}/bin/app",
+            "program": "${workspaceFolder}/bin/Raytris",
             "MIMode": "gdb",
             "windows": {
-              "program": "${workspaceFolder}/bin/app.exe",
+              "program": "${workspaceFolder}/bin/Raytris.exe",
               "miDebuggerPath": "C:/raylib/w64devkit/bin/gdb.exe"
             },
             "linux": {
-              "program": "${workspaceFolder}/bin/app",
+              "program": "${workspaceFolder}/bin/Raytris",
               "miDebuggerPath": "/usr/bin/gdb"
             },
             "preLaunchTask": "build release",

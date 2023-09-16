@@ -4,8 +4,8 @@
 //----------------------------------------------------------------------------------
 // VERSIONING
 //----------------------------------------------------------------------------------
-#define NAME               "App"
-#define SHORT_NAME         "app"
+#define NAME               "Raytris"
+#define SHORT_NAME         "rTetris"
 #define VERSION            "0.1.0"
 #define RELEASE_DATE       "09/2023"
 

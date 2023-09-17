@@ -76,11 +76,11 @@ ifeq ($(PLATFORM),PLATFORM_DESKTOP)
 	endif
 endif
 
-SRC_DIR = src src/app
+SRC_DIR = src
 OBJ_DIR = bin/obj
 
-SRC = $(wildcard *.c $(foreach fd, $(SRC_DIR), $(fd)/*.c))
-OBJS = $(subst src/, $(OBJ_DIR)/,$(SRC:c=o))
+SRC = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*.h)
+OBJS = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 ifeq ($(PLATFORM),PLATFORM_ANDROID)
 	MAKEFILE_PARAMS =-f Makefile.Android
@@ -94,17 +94,12 @@ all:
 	$(MAKE) $(MAKEFILE_PARAMS)
 
 $(PROJECT_NAME): $(OBJS)
-	$(CC) -o bin/$(PROJECT_NAME)$(EXT) $(OBJS) $(CFLAGS) $(INCLUDE_PATHS) $(LDFLAGS) $(LDLIBS) -D$(BUILD_MODE) -D$(PLATFORM) 
+	$(CC) -o bin/$(PROJECT_NAME)$(EXT) $(OBJS) $(CFLAGS) $(INCLUDE_PATHS) $(LDFLAGS) $(LDLIBS) -D$(BUILD_MODE) -D$(PLATFORM)
 
-#	SRC/APP
-$(OBJ_DIR)/app/app.o: src/app/app.c src/app/app.h src/defines.h
-	mkdir -p $(@D)
-	$(CC) -o $@ $(CFLAGS) -c $< $(INCLUDE_PATHS) -D$(BUILD_MODE) -D$(PLATFORM)
-
-$(OBJ_DIR)/main.o: src/main.c src/defines.h src/app/app.h
-	mkdir -p $(@D)
-	$(CC) -o $@ $(CFLAGS) -c $< $(INCLUDE_PATHS) -D$(BUILD_MODE) -D$(PLATFORM)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(MKDIR) -p $(@D)
+	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE_PATHS) -D$(PLATFORM)
 
 clean:
-	$(RM) -r bin/$(PROJECT_NAME)$(EXT) $(OBJS) bin/
+	$(RM) -r bin/$(PROJECT_NAME)$(EXT) bin/
 	@echo Cleaning done

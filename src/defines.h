@@ -1,5 +1,5 @@
-#ifndef APP_DEFINES_H
-#define APP_DEFINES_H
+#ifndef RTRIS_DEFINES_H
+#define RTRIS_DEFINES_H
 
 //----------------------------------------------------------------------------------
 // VERSIONING
@@ -15,4 +15,4 @@
 #define WINDOW_WIDTH       800
 #define WINDOW_HEIGHT      480
 
-#endif // APP_DEFINES_H
+#endif // RTRIS_DEFINES_H

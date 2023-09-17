@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean echoes
 
 PROJECT_NAME           ?=Raytris
 RAYLIB_VERSION         ?=4.5.0
@@ -103,3 +103,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	$(RM) -r bin/$(PROJECT_NAME)$(EXT) bin/
 	@echo Cleaning done
+
+echoes:
+	@printf "================================================================================\n"
+	@printf "Build $(PROJECT_NAME)$(EXT) :\n-> $(PLATFORM)-$(BUILD_MODE)\n"
+	@printf "SRC :\n-> $(SRC)\n"
+	@printf "OBJS :\n-> $(OBJS)\n"
+	@printf "INCLUDE_PATHS :\n-> $(INCLUDE_PATHS)\n"
+	@printf "================================================================================"

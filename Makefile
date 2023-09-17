@@ -97,7 +97,7 @@ $(PROJECT_NAME): $(OBJS)
 	$(CC) -o bin/$(PROJECT_NAME)$(EXT) $(OBJS) $(CFLAGS) $(INCLUDE_PATHS) $(LDFLAGS) $(LDLIBS) -D$(BUILD_MODE) -D$(PLATFORM)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(MKDIR) -p $(@D)
+	@mkdir -p $(@D)
 	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDE_PATHS) -D$(PLATFORM)
 
 clean:

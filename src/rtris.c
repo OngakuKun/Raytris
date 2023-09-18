@@ -1,86 +1,246 @@
 #include "defines.h"
 #include "rtris.h"
+#include "block.h"
 
 #include "raylib.h"
+
+#include <stdio.h>
+#include <string.h>
 
 const int screenWidth = WINDOW_WIDTH;
 const int screenHeight = WINDOW_HEIGHT;
 
-const Vector2 fieldPos = {60, 60};
 const int FIELD_WIDTH = 12;
 const int FIELD_HEIGHT = 18;
 
 const int ELEMENT_SIZE = 20;
 
-enum ColorsT {
-    COLOR_I,
-    COLOR_J,
-    COLOR_L,
-    COLOR_O,
-    COLOR_S,
-    COLOR_T,
-    COLOR_Z
+enum ColorsT
+{
+	BLOCK_I,
+	BLOCK_J,
+	BLOCK_L,
+	BLOCK_O,
+	BLOCK_S,
+	BLOCK_T,
+	BLOCK_Z
 };
 
-const Color tColors[7] = 
-{
-    {0, 255, 255, 255},
-    {0, 0, 255, 255},
-    {255, 127, 0, 255},
-    {255, 255, 0, 255},
-    {0, 255, 0, 255},
-    {128, 0, 128, 255},
-    {255, 0, 0, 255}
-};
+const Color tColors[7] =
+	{
+		{0, 255, 255, 255},
+		{0, 0, 255, 255},
+		{255, 127, 0, 255},
+		{255, 255, 0, 255},
+		{0, 255, 0, 255},
+		{128, 0, 128, 255},
+		{255, 0, 0, 255}
+	};
 
-void drawFieldBackground()
+void drawFieldBackground(Vector2 fPos)
 {
-    DrawRectangle(fieldPos.x - 5, fieldPos.y - 5, FIELD_WIDTH * ELEMENT_SIZE + 10, FIELD_HEIGHT * ELEMENT_SIZE + 10, DARKGRAY);
-    DrawRectangleLines(fieldPos.x - 5, fieldPos.y - 5,  FIELD_WIDTH * ELEMENT_SIZE + 10, FIELD_HEIGHT * ELEMENT_SIZE + 10, WHITE);
-    DrawRectangleLines(fieldPos.x - 1, fieldPos.y - 1, FIELD_WIDTH * ELEMENT_SIZE + 2, FIELD_HEIGHT * ELEMENT_SIZE + 2, WHITE);
-
+	DrawRectangle(fPos.x - 5, fPos.y - 5, FIELD_WIDTH * ELEMENT_SIZE + 10, FIELD_HEIGHT * ELEMENT_SIZE + 10, DARKGRAY);
+	DrawRectangleLines(fPos.x - 5, fPos.y - 5, FIELD_WIDTH * ELEMENT_SIZE + 10, FIELD_HEIGHT * ELEMENT_SIZE + 10, WHITE);
+	DrawRectangleLines(fPos.x - 1, fPos.y - 1, FIELD_WIDTH * ELEMENT_SIZE + 2, FIELD_HEIGHT * ELEMENT_SIZE + 2, WHITE);
 }
 
 void drawElement(int posX, int posY, Color color)
 {
-    DrawRectangle(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, color);
-    DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, WHITE);
+	DrawRectangle(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, color);
+	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, WHITE);
+}
+
+void updateCurrentBlock(bool blocks[4][4], int rotation, int type)
+{
+	switch (type)
+		{
+		case BLOCK_I:
+			memcpy(blocks[0], &blockI[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockI[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockI[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockI[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_J:
+			memcpy(blocks[0], &blockJ[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockJ[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockJ[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockJ[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_L:
+			memcpy(blocks[0], &blockL[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockL[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockL[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockL[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_O:
+			memcpy(blocks[0], &blockO[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockO[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockO[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockO[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_S:
+			memcpy(blocks[0], &blockS[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockS[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockS[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockS[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_T:
+			memcpy(blocks[0], &blockT[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockT[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockT[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockT[rotation][12], 4 * sizeof(bool));
+			break;
+		case BLOCK_Z:
+			memcpy(blocks[0], &blockZ[rotation][0], 4 * sizeof(bool));
+			memcpy(blocks[1], &blockZ[rotation][4], 4 * sizeof(bool));
+			memcpy(blocks[2], &blockZ[rotation][8], 4 * sizeof(bool));
+			memcpy(blocks[3], &blockZ[rotation][12], 4 * sizeof(bool));
+			break;
+		}
+}
+
+bool DoesPieceFit(int nTetromino, int nRotation, int nPosX, int nPosY)
+{
+	// All Field cells >0 are occupied
+	for (int px = 0; px < 4; px++)
+		for (int py = 0; py < 4; py++)
+		{
+			// Get index into piece
+			int pi = Rotate(px, py, nRotation);
+
+			// Get index into field
+			int fi = (nPosY + py) * FIELD_WIDTH + (nPosX + px);
+
+			// Check that test is in bounds. Note out of bounds does
+			// not necessarily mean a fail, as the long vertical piece
+			// can have cells that lie outside the boundary, so we'll
+			// just ignore them
+			if (nPosX + px >= 0 && nPosX + px < FIELD_WIDTH)
+			{
+				if (nPosY + py >= 0 && nPosY + py < FIELD_HEIGHT)
+				{
+					// In Bounds so do collision check
+					if (tetromino[nTetromino][pi] != L'.' && pField[fi] != 0)
+						return false; // fail on first hit
+				}
+			}
+		}
+
+	return true;
 }
 
 void appMain()
 {
-    InitWindow(screenWidth, screenHeight, "Raytris - Basic Window");
+	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	InitWindow(screenWidth, screenHeight, TextFormat("Raytris v%s", VERSION));
 
-    // SetExitKey(0);
+	// SetExitKey(0);
+	SetTargetFPS(60);
 
-    SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
+	SetTraceLogLevel(LOG_TRACE);
 
-    // Main game loop
-    while (!WindowShouldClose())
-    {
-        // Update
-        //----------------------------------------------------------------------------------
+	char fieldContent[FIELD_WIDTH][FIELD_HEIGHT];
+	Vector2 fieldPos = {GetScreenWidth()/2 - (FIELD_WIDTH*ELEMENT_SIZE)/2, GetScreenHeight()/2 - (FIELD_HEIGHT*ELEMENT_SIZE)/2};
+	
+	Vector2 currentBlockPos = { 5, 0 };
+	bool currentBlock[4][4];
+	int currentBlockType = 0;
+	int currentBlockRotation = 0;
 
-        //----------------------------------------------------------------------------------
+	// Init fieldContent to 0
+	for (int w = 0; w < FIELD_WIDTH; w++)
+		for (int h = 0; h < FIELD_HEIGHT; h++)
+			fieldContent[w][h] = 0;
 
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
+	int LinesCleared = 0;
+	//--------------------------------------------------------------------------------------
 
-            ClearBackground(BLACK);
+	// Main game loop
+	while (!WindowShouldClose())
+	{
+		// Update
+		//----------------------------------------------------------------------------------
+		// LEFT MOVEMENT
+		if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
+		{
+			if (currentBlockPos.x != 0)
+				currentBlockPos.x--;
+		}
 
-            drawFieldBackground();
+		// RIGHT MOVEMENT
+		if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT))
+		{
+			if (currentBlockPos.x != FIELD_WIDTH)
+				currentBlockPos.x++;
+		}
 
-            for (int w = 0; w < FIELD_WIDTH; w++)
-                for (int h = 0; h < FIELD_HEIGHT; h++)
-                    if (GetRandomValue(0,100) < 16) drawElement(fieldPos.x + (w * ELEMENT_SIZE), fieldPos.y + (h * ELEMENT_SIZE), tColors[GetRandomValue(0, 6)]);
+		// DOWN MOVEMENT
+		if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN))
+		{
+			if (currentBlockPos.y != FIELD_HEIGHT)
+				currentBlockPos.y++;
+		}
 
-        EndDrawing();
-        //----------------------------------------------------------------------------------
-    }
+		// CLOCKWISE ROTATION
+		if (IsKeyPressed(KEY_E) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
+		{
+			currentBlockRotation++;
+			if (currentBlockRotation > 3)
+				currentBlockRotation = 0;
+		}
+		
+		// COUNTERCLOCKWISE ROTATION
+		if (IsKeyPressed(KEY_Q) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			currentBlockRotation--;
+			if (currentBlockRotation < 0)
+				currentBlockRotation = 3;
+		}
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();
+
+
+		updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+		
+		//----------------------------------------------------------------------------------
+
+		// Draw
+		//----------------------------------------------------------------------------------
+		BeginDrawing();
+
+		ClearBackground(BLACK);
+
+		drawFieldBackground(fieldPos);
+
+		for (int w = 0; w < FIELD_WIDTH; w++)
+		{
+			for (int h = 0; h < FIELD_HEIGHT; h++)
+			{
+				unsigned char c = fieldContent[w][h];
+				if (c != 0)
+					drawElement(fieldPos.x + (w * ELEMENT_SIZE), fieldPos.y + (h * ELEMENT_SIZE), tColors[c]);
+			}
+		}
+
+		// Draw Current Block
+		for (int w = 0; w < 4; w++) {
+			for (int h = 0; h < 4; h++) {
+				if (currentBlock[w][h]) {
+					drawElement(
+						fieldPos.x + (currentBlockPos.x + h) * ELEMENT_SIZE,
+						fieldPos.y + (currentBlockPos.y + w) * ELEMENT_SIZE,
+						tColors[currentBlockType]
+					);
+				}
+			}
+		}
+
+		DrawText(TextFormat("Rows Cleared: %d", LinesCleared), 10, 10, 18, RAYWHITE);
+
+		EndDrawing();
+		//----------------------------------------------------------------------------------
+	}
+
+	// De-Initialization
+	//--------------------------------------------------------------------------------------
+	CloseWindow();
 }

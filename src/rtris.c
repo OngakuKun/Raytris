@@ -27,15 +27,15 @@ enum ColorsT
 };
 
 const Color tColors[7] =
-	{
-		{0, 255, 255, 255},
-		{0, 0, 255, 255},
-		{255, 127, 0, 255},
-		{255, 255, 0, 255},
-		{0, 255, 0, 255},
-		{128, 0, 128, 255},
-		{255, 0, 0, 255}
-	};
+{
+	{0, 255, 255, 255},
+	{0, 0, 255, 255},
+	{255, 127, 0, 255},
+	{255, 255, 0, 255},
+	{0, 255, 0, 255},
+	{128, 0, 128, 255},
+	{255, 0, 0, 255}
+};
 
 void drawFieldBackground(Vector2 fPos)
 {
@@ -53,7 +53,7 @@ void drawElement(int posX, int posY, Color color)
 void updateCurrentBlock(bool blocks[4][4], int rotation, int type)
 {
 	switch (type)
-		{
+	{
 		case BLOCK_I:
 			memcpy(blocks[0], &blockI[rotation][0], 4 * sizeof(bool));
 			memcpy(blocks[1], &blockI[rotation][4], 4 * sizeof(bool));
@@ -96,35 +96,12 @@ void updateCurrentBlock(bool blocks[4][4], int rotation, int type)
 			memcpy(blocks[2], &blockZ[rotation][8], 4 * sizeof(bool));
 			memcpy(blocks[3], &blockZ[rotation][12], 4 * sizeof(bool));
 			break;
-		}
+	}
 }
 
-bool DoesPieceFit(int nTetromino, int nRotation, int nPosX, int nPosY)
+bool DoesPieceFit(bool currentBlock[4][4], char field[FIELD_WIDTH][FIELD_HEIGHT], Vector2 fPos, Vector2 pPos)
 {
-	// All Field cells >0 are occupied
-	for (int px = 0; px < 4; px++)
-		for (int py = 0; py < 4; py++)
-		{
-			// Get index into piece
-			int pi = Rotate(px, py, nRotation);
 
-			// Get index into field
-			int fi = (nPosY + py) * FIELD_WIDTH + (nPosX + px);
-
-			// Check that test is in bounds. Note out of bounds does
-			// not necessarily mean a fail, as the long vertical piece
-			// can have cells that lie outside the boundary, so we'll
-			// just ignore them
-			if (nPosX + px >= 0 && nPosX + px < FIELD_WIDTH)
-			{
-				if (nPosY + py >= 0 && nPosY + py < FIELD_HEIGHT)
-				{
-					// In Bounds so do collision check
-					if (tetromino[nTetromino][pi] != L'.' && pField[fi] != 0)
-						return false; // fail on first hit
-				}
-			}
-		}
 
 	return true;
 }
@@ -163,8 +140,9 @@ void appMain()
 		// LEFT MOVEMENT
 		if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
 		{
-			if (currentBlockPos.x != 0)
+			if (DoesPieceFit(currentBlock, fieldContent, fieldPos, currentBlockPos)) {
 				currentBlockPos.x--;
+			}
 		}
 
 		// RIGHT MOVEMENT

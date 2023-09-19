@@ -26,6 +26,7 @@ enum ColorsT
 	BLOCK_Z
 };
 
+/** Colors for the Tetromino */
 const Color tColors[7] =
 {
 	{0, 255, 255, 255},
@@ -37,6 +38,8 @@ const Color tColors[7] =
 	{255, 0, 0, 255}
 };
 
+/** Function to Render the Background of the Field Area
+ *  @param fPos Render Position for the Field */
 void drawFieldBackground(Vector2 fPos)
 {
 	DrawRectangle(fPos.x - 5, fPos.y - 5, FIELD_WIDTH * ELEMENT_SIZE + 10, FIELD_HEIGHT * ELEMENT_SIZE + 10, DARKGRAY);
@@ -44,6 +47,10 @@ void drawFieldBackground(Vector2 fPos)
 	DrawRectangleLines(fPos.x - 1, fPos.y - 1, FIELD_WIDTH * ELEMENT_SIZE + 2, FIELD_HEIGHT * ELEMENT_SIZE + 2, WHITE);
 }
 
+/** Draw one Field of a Tetromino 
+ *  @param posX X-Position of the Tetromino
+ *  @param posY Y-Position of the Tetromino
+ *  @param color Color of the Tetromino */
 void drawElement(int posX, int posY, Color color)
 {
 	DrawRectangle(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, color);
@@ -99,10 +106,28 @@ void updateCurrentBlock(bool blocks[4][4], int rotation, int type)
 	}
 }
 
-bool DoesPieceFit(bool currentBlock[4][4], char field[FIELD_WIDTH][FIELD_HEIGHT], Vector2 fPos, Vector2 pPos)
+/** @param currentBlock Current Tetromino
+ *  @param field Field Array
+ *  @param pPos Tetromino Position to Move 
+ *  @returns TRUE if no Collisions accoures */
+bool DoesPieceFit(bool currentBlock[4][4], char field[FIELD_WIDTH][FIELD_HEIGHT], Vector2 pPos)
 {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (!currentBlock[i][j])
+				continue;
+			
+			// X,Y Position in Field
+			int posX = pPos.x + j;
+			int posY = pPos.y + i;
 
+			if (posX < 0 || posX > FIELD_WIDTH - 1 || posY > FIELD_HEIGHT - 1)
+				return false;
 
+			if (field[posX][posY] != 0)
+				return false;
+		}
+	}
 	return true;
 }
 
@@ -119,15 +144,19 @@ void appMain()
 	char fieldContent[FIELD_WIDTH][FIELD_HEIGHT];
 	Vector2 fieldPos = {GetScreenWidth()/2 - (FIELD_WIDTH*ELEMENT_SIZE)/2, GetScreenHeight()/2 - (FIELD_HEIGHT*ELEMENT_SIZE)/2};
 	
-	Vector2 currentBlockPos = { 5, 0 };
-	bool currentBlock[4][4];
-	int currentBlockType = 0;
-	int currentBlockRotation = 0;
-
 	// Init fieldContent to 0
 	for (int w = 0; w < FIELD_WIDTH; w++)
 		for (int h = 0; h < FIELD_HEIGHT; h++)
 			fieldContent[w][h] = 0;
+	
+	Vector2 currentBlockPos = { 5, 0 };
+	bool currentBlock[4][4];
+	int currentBlockType = GetRandomValue(0,6);
+	int currentBlockRotation = GetRandomValue(0,3);
+	updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+
+	// Timing Variables
+
 
 	int LinesCleared = 0;
 	//--------------------------------------------------------------------------------------
@@ -137,48 +166,68 @@ void appMain()
 	{
 		// Update
 		//----------------------------------------------------------------------------------
-		// LEFT MOVEMENT
-		if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
-		{
-			if (DoesPieceFit(currentBlock, fieldContent, fieldPos, currentBlockPos)) {
-				currentBlockPos.x--;
-			}
-		}
-
-		// RIGHT MOVEMENT
-		if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT))
-		{
-			if (currentBlockPos.x != FIELD_WIDTH)
-				currentBlockPos.x++;
-		}
-
-		// DOWN MOVEMENT
-		if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN))
-		{
-			if (currentBlockPos.y != FIELD_HEIGHT)
-				currentBlockPos.y++;
-		}
-
-		// CLOCKWISE ROTATION
 		if (IsKeyPressed(KEY_E) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
-		{
+		{ // CLOCKWISE ROTATION
 			currentBlockRotation++;
 			if (currentBlockRotation > 3)
 				currentBlockRotation = 0;
-		}
-		
-		// COUNTERCLOCKWISE ROTATION
-		if (IsKeyPressed(KEY_Q) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-		{
-			currentBlockRotation--;
+			updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+			if (!DoesPieceFit(currentBlock, fieldContent, currentBlockPos)) {
+				currentBlockRotation--;
+				updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+			}
 			if (currentBlockRotation < 0)
 				currentBlockRotation = 3;
 		}
-
-
+		else if (IsKeyPressed(KEY_Q) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{ // COUNTERCLOCKWISE ROTATION
+			currentBlockRotation--;
+			if (currentBlockRotation < 0)
+				currentBlockRotation = 3;
+			updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+			if (!DoesPieceFit(currentBlock, fieldContent, currentBlockPos)) {
+				currentBlockRotation++;
+				updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
+			}
+			if (currentBlockRotation > 3)
+				currentBlockRotation = 0;
+		}
+		else if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT))
+		{ // LEFT MOVEMENT
+			currentBlockPos.x--;
+			if (!DoesPieceFit(currentBlock, fieldContent, currentBlockPos)) {
+				currentBlockPos.x++;
+			}
+		}
+		else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT))
+		{ // RIGHT MOVEMENT
+			currentBlockPos.x++;
+			if (!DoesPieceFit(currentBlock, fieldContent, currentBlockPos))
+				currentBlockPos.x--;
+		}else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN))
+		{ // DOWN MOVEMENT
+			currentBlockPos.y++;
+			if (!DoesPieceFit(currentBlock, fieldContent, currentBlockPos))
+				currentBlockPos.y--;
+		}
 
 		updateCurrentBlock(currentBlock, currentBlockRotation, currentBlockType);
-		
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (!currentBlock[i][j])
+					continue;
+				
+				// X,Y Position in Field
+				int posX = currentBlockPos.x + j;
+				int posY = currentBlockPos.y + i;
+
+				if (fieldContent[posX][posY] != 0)
+					return false;
+			}
+		}
+		return true;
+
 		//----------------------------------------------------------------------------------
 
 		// Draw

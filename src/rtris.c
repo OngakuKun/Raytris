@@ -5,6 +5,7 @@
 #include "raylib.h"
 
 #include <stdio.h>
+#include <time.h>
 #include <string.h>
 
 #define FIELD_WIDTH 12
@@ -15,12 +16,17 @@ const int screenHeight = WINDOW_HEIGHT;
 
 const int ELEMENT_SIZE = 20;
 
+const Vector2 fieldPos = {280, 60};
 char fieldContent[FIELD_WIDTH][FIELD_HEIGHT] = {0};
 
 Vector2 currentBlockPos;
 bool currentBlock[4][4];
 int currentBlockType;
 int currentBlockRotation;
+
+bool nextBlock[4][4];
+int nextBlockType;
+int nextBlockRotation;
 
 bool isGameOver = false;
 
@@ -51,6 +57,13 @@ const Color tColors[8] =
 	{255, 0, 0, 255}
 };
 
+int difficulty[15] =
+{
+	48, 43, 38, 33, 28,
+	23, 18, 13,  8,  6,
+	 5,  4,  3,  2,  1
+};
+
 /** Function to Render the Background of the Field Area
  *  @param fPos Render Position for the Field */
 void drawFieldBackground(Vector2 fPos)
@@ -60,66 +73,123 @@ void drawFieldBackground(Vector2 fPos)
 	DrawRectangleLines(fPos.x - 1, fPos.y - 1, FIELD_WIDTH * ELEMENT_SIZE + 2, FIELD_HEIGHT * ELEMENT_SIZE + 2, WHITE);
 }
 
+void drawPreviewBackground()
+{
+	DrawRectangle(50 - 5, 50 - 5, 4 * ELEMENT_SIZE + 10, 4 * ELEMENT_SIZE + 10, DARKGRAY);
+	DrawRectangleLines(50 - 5, 50 - 5, 4 * ELEMENT_SIZE + 10, 4 * ELEMENT_SIZE + 10, WHITE);
+	DrawRectangleLines(50 - 1, 50 - 1, 4 * ELEMENT_SIZE + 2, 4 * ELEMENT_SIZE + 2, WHITE);
+}
+
 /** Draw one Field of a Tetromino
  *  @param posX X-Position of the Tetromino
  *  @param posY Y-Position of the Tetromino
  *  @param color Color of the Tetromino */
 void drawElement(int posX, int posY, Color color)
 {
-	DrawRectangle(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, color);
-	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, WHITE);
+	DrawRectangleGradientEx((Rectangle) { posX, posY, ELEMENT_SIZE, ELEMENT_SIZE }, color, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255}, BLACK, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255});
+	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, BLACK);
 }
 
-void updateCurrentBlock(int rotation, int type)
+void updateBlock(bool current, int rotation, int type)
 {
 	switch (type)
 	{
 		case BLOCK_I:
-			memcpy(currentBlock[0], &blockI[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockI[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockI[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockI[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockI[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockI[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockI[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockI[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockI[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockI[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockI[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockI[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_J:
-			memcpy(currentBlock[0], &blockJ[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockJ[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockJ[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockJ[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockJ[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockJ[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockJ[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockJ[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockJ[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockJ[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockJ[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockJ[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_L:
-			memcpy(currentBlock[0], &blockL[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockL[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockL[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockL[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockL[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockL[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockL[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockL[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockL[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockL[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockL[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockL[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_O:
-			memcpy(currentBlock[0], &blockO[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockO[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockO[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockO[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockO[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockO[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockO[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockO[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockO[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockO[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockO[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockO[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_S:
-			memcpy(currentBlock[0], &blockS[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockS[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockS[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockS[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockS[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockS[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockS[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockS[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockS[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockS[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockS[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockS[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_T:
-			memcpy(currentBlock[0], &blockT[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockT[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockT[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockT[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockT[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockT[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockT[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockT[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockT[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockT[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockT[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockT[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 		case BLOCK_Z:
-			memcpy(currentBlock[0], &blockZ[rotation][0], 4 * sizeof(bool));
-			memcpy(currentBlock[1], &blockZ[rotation][4], 4 * sizeof(bool));
-			memcpy(currentBlock[2], &blockZ[rotation][8], 4 * sizeof(bool));
-			memcpy(currentBlock[3], &blockZ[rotation][12], 4 * sizeof(bool));
+			if (current) {
+				memcpy(currentBlock[0], &blockZ[rotation][0], 4 * sizeof(bool));
+				memcpy(currentBlock[1], &blockZ[rotation][4], 4 * sizeof(bool));
+				memcpy(currentBlock[2], &blockZ[rotation][8], 4 * sizeof(bool));
+				memcpy(currentBlock[3], &blockZ[rotation][12], 4 * sizeof(bool));
+			} else {
+				memcpy(nextBlock[0], &blockZ[rotation][0], 4 * sizeof(bool));
+				memcpy(nextBlock[1], &blockZ[rotation][4], 4 * sizeof(bool));
+				memcpy(nextBlock[2], &blockZ[rotation][8], 4 * sizeof(bool));
+				memcpy(nextBlock[3], &blockZ[rotation][12], 4 * sizeof(bool));
+			}
 			break;
 	}
 }
 
-/** @param currentBlock Current Tetromino
+/** Checks if the Next Position is Valid
+ *  @param currentBlock Current Tetromino
  *  @param field Field Array
  *  @param pPos Tetromino Position to Move
  *  @returns TRUE if no Collisions accoures */
@@ -145,15 +215,12 @@ void clearLines()
 {
 	for (int i = FIELD_HEIGHT - 1; i >= 0; i--) {
 		bool isFull = true;
-		TraceLog(LOG_TRACE, "Row %d isFull = %d", i, isFull);
 		for (int j = 0; j < FIELD_WIDTH; j++) {
 			if (fieldContent[j][i] == 0) {
 				isFull = false;
-				TraceLog(LOG_TRACE, "Row %d Colum %d isFull = %d", j, i, isFull);
 				break;
 			}
 		}
-
 		if (isFull) {
 			// Shift all lines above this line down
 			for (int k = i; k > 0; k--)
@@ -173,11 +240,25 @@ void clearLines()
 	}
 }
 
+/** Spawns new Tetromino
+ * 
+*/
 void spawnTetromino() {
+
+	int newBlock = GetRandomValue(BLOCK_I, BLOCK_Z);
+	while (newBlock == currentBlockType)
+		newBlock = GetRandomValue(BLOCK_I, BLOCK_Z);
+	
 	currentBlockPos = (Vector2) {5, 0};
-	currentBlockType = GetRandomValue(BLOCK_I, BLOCK_Z);
+	currentBlockType = nextBlockType;
 	currentBlockRotation = GetRandomValue(0, 3);
 
+	nextBlockType = newBlock;
+	nextBlockRotation = GetRandomValue(0, 3);
+
+	updateBlock(true, currentBlockRotation, currentBlockType);
+	updateBlock(false, nextBlockRotation, nextBlockType);
+	
 	if (!DoesPieceFit(currentBlockPos)) {
 		isGameOver = true;
 	}
@@ -185,26 +266,39 @@ void spawnTetromino() {
 
 void appMain()
 {
+	SetTraceLogLevel(LOG_TRACE);
+	SetRandomSeed((unsigned int)time(NULL));
+
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, TextFormat("Raytris v%s", VERSION));
+	SetWindowMinSize(screenWidth, screenHeight);
+
+	InitAudioDevice();
 
 	SetExitKey(0);
-	SetTraceLogLevel(LOG_TRACE);
-	SetRandomSeed(time(NULL));
 	SetTargetFPS(60);
+
+	TraceLog(LOG_TRACE, "RNG-Seed: %u", (unsigned int)time(NULL));
 	
 	fieldRender = LoadRenderTexture(screenWidth, screenHeight);
 
+	Music soundtrack = LoadMusicStream("res/soundtrack.mp3");
+	PlayMusicStream(soundtrack);
+
+	SetAudioStreamVolume(soundtrack.stream, 0.1f);
+
+	nextBlockType = GetRandomValue(1, 7);
 	spawnTetromino();
-	
-	Vector2 fieldPos = {280, 60};
+
+	TraceLog(LOG_DEBUG, "CurrentBlockType[%d]", currentBlockType);
+	TraceLog(LOG_DEBUG, "NextBlockType[%d]", nextBlockType);
 
 	// Init fieldContent to 0
 	for (int w = 0; w < FIELD_WIDTH; w++)
 		for (int h = 0; h < FIELD_HEIGHT; h++)
 			fieldContent[w][h] = 0;
 
-	updateCurrentBlock(currentBlockRotation, currentBlockType);
+	updateBlock(true, currentBlockRotation, currentBlockType);
 
 	double lastTick;
 
@@ -212,19 +306,24 @@ void appMain()
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
-	while (!isGameOver)
+	while (!isGameOver && !WindowShouldClose())
 	{
 		// Update
 		//----------------------------------------------------------------------------------
+		// Update Music Stream
+		UpdateMusicStream(soundtrack);
+		if (GetMusicTimePlayed(soundtrack) == GetMusicTimeLength(soundtrack))
+			PlayMusicStream(soundtrack);
+		
 		if (IsKeyPressed(KEY_E) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
 		{ // CLOCKWISE ROTATION
 			currentBlockRotation++;
 			if (currentBlockRotation > 3)
 				currentBlockRotation = 0;
-			updateCurrentBlock( currentBlockRotation, currentBlockType);
+			updateBlock(true, currentBlockRotation, currentBlockType);
 			if (!DoesPieceFit(currentBlockPos)) {
 				currentBlockRotation--;
-				updateCurrentBlock(currentBlockRotation, currentBlockType);
+				updateBlock(true, currentBlockRotation, currentBlockType);
 			}
 			if (currentBlockRotation < 0)
 				currentBlockRotation = 3;
@@ -234,10 +333,10 @@ void appMain()
 			currentBlockRotation--;
 			if (currentBlockRotation < 0)
 				currentBlockRotation = 3;
-			updateCurrentBlock(currentBlockRotation, currentBlockType);
+			updateBlock(true, currentBlockRotation, currentBlockType);
 			if (!DoesPieceFit(currentBlockPos)) {
 				currentBlockRotation++;
-				updateCurrentBlock(currentBlockRotation, currentBlockType);
+				updateBlock(true, currentBlockRotation, currentBlockType);
 			}
 			if (currentBlockRotation > 3)
 				currentBlockRotation = 0;
@@ -262,9 +361,9 @@ void appMain()
 				currentBlockPos.y--;
 		}
 
-		updateCurrentBlock(currentBlockRotation, currentBlockType);
+		updateBlock(true, currentBlockRotation, currentBlockType);
 
-		if (GetTime() >= lastTick + 2.0f) {
+		if (GetTime() >= lastTick + 0.48f) {
 			if (DoesPieceFit((Vector2) {currentBlockPos.x, currentBlockPos.y + 1})){
 				currentBlockPos.y++;
 			} 
@@ -288,8 +387,6 @@ void appMain()
 				spawnTetromino();
 			}
 			lastTick = GetTime();
-			if (!isGameOver)
-				updateCurrentBlock(currentBlockRotation, currentBlockType);
 		}
 		//----------------------------------------------------------------------------------
 
@@ -297,6 +394,7 @@ void appMain()
 		//----------------------------------------------------------------------------------
 		BeginTextureMode(fieldRender);
 			drawFieldBackground(fieldPos);
+			drawPreviewBackground();
 
 			for (int w = 0; w < FIELD_WIDTH; w++) {
 				for (int h = 0; h < FIELD_HEIGHT; h++) {
@@ -317,6 +415,18 @@ void appMain()
 					}
 				}
 			}
+
+			// Draw Next Block
+			for (int w = 0; w < 4; w++) {
+				for (int h = 0; h < 4; h++) {
+					if (nextBlock[w][h]) {
+						drawElement(
+							50 + h * ELEMENT_SIZE,
+							50 + w * ELEMENT_SIZE,
+							tColors[nextBlockType]);
+					}
+				}
+			}
 		EndTextureMode();
 
 		BeginDrawing();
@@ -328,6 +438,10 @@ void appMain()
 			(Vector2) {GetScreenWidth()/2, GetScreenHeight()/2}, 0.0f, (Color) {255, 255, 255, 255});
 
 			DrawText(TextFormat("Rows Cleared: %d", LinesCleared), 10, 10, 18, RAYWHITE);
+			DrawText(TextFormat("FPS: %d", GetFPS()), GetScreenWidth() - 75, 10, 18, RAYWHITE);
+
+			DrawRectanglePro((Rectangle) {0, GetScreenHeight() - 1, GetScreenWidth(), 1}, (Vector2) {0, 0}, 0.0f, DARKGRAY);
+			DrawRectanglePro((Rectangle) {0, GetScreenHeight() - 1, (GetMusicTimePlayed(soundtrack)/GetMusicTimeLength(soundtrack)) * GetScreenWidth(), 1}, (Vector2) {0, 0}, 0.0f, RED);
 		EndDrawing();
 		//----------------------------------------------------------------------------------
 	}
@@ -335,5 +449,7 @@ void appMain()
 	// De-Initialization
 	//--------------------------------------------------------------------------------------
 	UnloadRenderTexture(fieldRender);
+	UnloadMusicStream(soundtrack);
+	CloseAudioDevice();
 	CloseWindow();
 }

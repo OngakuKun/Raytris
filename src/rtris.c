@@ -13,10 +13,10 @@
 #define FIELD_POSX 280
 #define FIELD_POSY 60
 
+#define ELEMENT_SIZE 20
+
 const int screenWidth = WINDOW_WIDTH;
 const int screenHeight = WINDOW_HEIGHT;
-
-const int ELEMENT_SIZE = 20;
 
 char fieldContent[FIELD_WIDTH][FIELD_HEIGHT] = {0};
 
@@ -84,7 +84,7 @@ void drawFieldBackground(Vector2 fPos)
 void drawPreviewBackground()
 {
 	Rectangle backgroundRec = {
-		GetScreenWidth() / 2 + 7 * ELEMENT_SIZE, GetScreenHeight()/2 - 9 * ELEMENT_SIZE, 
+		screenWidth / 2 + 7 * ELEMENT_SIZE, screenHeight / 2 - 9 * ELEMENT_SIZE, 
 		6 * ELEMENT_SIZE, 6 * ELEMENT_SIZE
 	};
 
@@ -103,7 +103,7 @@ void drawPreviewBackground()
 void drawElement(int posX, int posY, Color color)
 {
 	DrawRectangleGradientEx((Rectangle) { posX, posY, ELEMENT_SIZE, ELEMENT_SIZE }, color, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255}, BLACK, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255});
-	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, DARKGRAY);
+	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, BLACK);
 }
 
 void renderPreviewTexture()
@@ -471,7 +471,7 @@ void appMain()
 	fieldRender = LoadRenderTexture(screenWidth, screenHeight);
 
 	Music soundtrack = LoadMusicStream("res/soundtrack.mp3");
-	// PlayMusicStream(soundtrack);
+	PlayMusicStream(soundtrack);
 
 	SetAudioStreamVolume(soundtrack.stream, 0.2f);
 	soundtrack.looping = true;
@@ -495,8 +495,7 @@ void appMain()
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
-	//while (!isGameOver && !WindowShouldClose())
-	while (!WindowShouldClose())
+	while (!isGameOver && !WindowShouldClose())
 	{
 		// Update
 		//----------------------------------------------------------------------------------
@@ -581,6 +580,7 @@ void appMain()
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginTextureMode(fieldRender);
+			ClearBackground(BLANK);
 			// Draw FieldBackground
 			drawFieldBackground((Vector2) {FIELD_POSX, FIELD_POSY});
 
@@ -610,10 +610,9 @@ void appMain()
 
 			// Draw Preview
 			DrawTexturePro(previewRender.texture, 
-			(Rectangle) {120 * (nextBlockType - 1), 120 * (nextBlockRotation - 1), 120, -120},
+			(Rectangle) {120 * (nextBlockType - 1), 120 * (nextBlockRotation), 120, -120},
 			(Rectangle) {600, 120, 120, 120},
 			(Vector2) {60, 60}, 0.0f, WHITE);
-
 
 		EndTextureMode();
 
@@ -625,20 +624,8 @@ void appMain()
 			DrawTexturePro(fieldRender.texture, (Rectangle) {0, 0, screenWidth, -screenHeight}, (Rectangle) {GetScreenWidth()/2, GetScreenHeight()/2, GetScreenWidth(), GetScreenHeight()}, 
 			(Vector2) {GetScreenWidth()/2, GetScreenHeight()/2}, 0.0f, WHITE);
 
-
 			DrawText(TextFormat("Score: %d", LinesCleared), 10, 10, 18, RAYWHITE);
 			DrawText(TextFormat("FPS: %d", GetFPS()), GetScreenWidth() - 75, 10, 18, RAYWHITE);
-
-			DrawText(TextFormat("Next Block: %d", nextBlockType), GetScreenWidth() / 2 + 7 * ELEMENT_SIZE, 10, 18, RAYWHITE);
-
-			// ! DEBUG RENDERING
-			DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
-			// Draw Preview
-			DrawTexturePro(previewRender.texture, 
-			(Rectangle) {0, 0, previewSourceRec.width, -previewSourceRec.height},
-			previewSourceRec,
-			(Vector2) {0, 0}, 0.0f, WHITE);
-			// ! DEBUG RENDERING
 
 			// Draw Soundtrack Timeline
 			DrawText("Soundtrack made by Melody Ayres-Griffiths", GetScreenWidth() - 382, GetScreenHeight() - 25, 18, WHITE);

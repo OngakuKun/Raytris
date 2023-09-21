@@ -34,8 +34,11 @@ int LinesCleared;
 
 const Rectangle fieldSourceRec = {FIELD_POSX, FIELD_POSY, FIELD_WIDTH * ELEMENT_SIZE, FIELD_HEIGHT * ELEMENT_SIZE};
 const Rectangle previewSourceRec = {0, 0, 840, 480};
+
 RenderTexture2D fieldRender;
 RenderTexture2D previewRender;
+
+Texture2D previewTexture;
 
 enum ColorsT
 {
@@ -100,7 +103,228 @@ void drawPreviewBackground()
 void drawElement(int posX, int posY, Color color)
 {
 	DrawRectangleGradientEx((Rectangle) { posX, posY, ELEMENT_SIZE, ELEMENT_SIZE }, color, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255}, BLACK, (Color) {color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 255});
-	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, BLACK);
+	DrawRectangleLines(posX, posY, ELEMENT_SIZE, ELEMENT_SIZE, DARKGRAY);
+}
+
+void renderPreviewTexture()
+{
+	previewRender = LoadRenderTexture(previewSourceRec.width, previewSourceRec.height);
+
+	BeginTextureMode(previewRender);
+		Vector2 drawIndex = {0,0};
+
+		//DrawRectangle(0, 0, previewSourceRec.width, previewSourceRec.height, BLACK);
+
+		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 0");
+		drawElement(drawIndex.x + 40, drawIndex.y + 20, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 40, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 40, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 40, drawIndex.y + 80, tColors[BLOCK_I]);
+
+		drawIndex = (Vector2) {0, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 1");
+		drawElement(drawIndex.x + 20, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 40, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 60, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 80, drawIndex.y + 40, tColors[BLOCK_I]);
+
+		drawIndex = (Vector2) {0, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 2");
+		drawElement(drawIndex.x + 60, drawIndex.y + 20, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 60, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 60, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 60, drawIndex.y + 80, tColors[BLOCK_I]);
+
+		drawIndex = (Vector2) {0, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 2");
+		drawElement(drawIndex.x + 20, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 40, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 60, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 80, drawIndex.y + 60, tColors[BLOCK_I]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {6.5f * ELEMENT_SIZE, 0.5f * ELEMENT_SIZE};
+
+		TraceLog(LOG_INFO, "Drawing BLOCK J Preview Rotation 0");
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_J]);
+
+		drawIndex = (Vector2) {6.5f * ELEMENT_SIZE, 6.5f * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK J Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_J]);
+
+		drawIndex = (Vector2) {6.5f * ELEMENT_SIZE, 12.5f * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK J Preview Rotation 2");
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
+
+		drawIndex = (Vector2) {6 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK J Preview Rotation 2");
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_J]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {12 * ELEMENT_SIZE, 0};
+		TraceLog(LOG_INFO, "Drawing BLOCK L Preview Rotation 0");
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_L]);
+
+		drawIndex = (Vector2) {12 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK L Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+
+		drawIndex = (Vector2) {12 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK L Preview Rotation 2");
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_L]);
+
+		drawIndex = (Vector2) {12 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK L Preview Rotation 2");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 0};
+		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 0");
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_O]);
+
+		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+
+		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 2");
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_O]);
+
+		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 2");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 0};
+		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 0");
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_S]);
+
+		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+
+		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 2");
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_S]);
+
+		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 2");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 0};
+		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 0");
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_T]);
+
+		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+
+		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 2");
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_T]);
+
+		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 2");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		drawIndex = (Vector2) {36 * ELEMENT_SIZE, 0};
+		TraceLog(LOG_INFO, "Drawing BLOCK Z Preview Rotation 0");
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+
+		drawIndex = (Vector2) {36 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK Z Preview Rotation 1");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+
+		drawIndex = (Vector2) {36 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK Z Preview Rotation 2");
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+
+		drawIndex = (Vector2) {36 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		TraceLog(LOG_INFO, "Drawing BLOCK Z Preview Rotation 2");
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_Z]);
+
+	EndTextureMode();
+
 }
 
 void updateBlock(int rotation, int type)
@@ -234,6 +458,8 @@ void appMain()
 	SetRandomSeed((unsigned int)time(NULL));
 
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	SetConfigFlags(FLAG_WINDOW_ALWAYS_RUN);
+	SetConfigFlags(FLAG_WINDOW_TOPMOST);
 	InitWindow(screenWidth, screenHeight, TextFormat("Raytris v%s", VERSION));
 	SetWindowMinSize(screenWidth, screenHeight);
 
@@ -244,112 +470,12 @@ void appMain()
 
 	TraceLog(LOG_TRACE, "RNG-Seed: %u", (unsigned int)time(NULL));
 	
+	renderPreviewTexture();
+
 	fieldRender = LoadRenderTexture(screenWidth, screenHeight);
-	previewRender = LoadRenderTexture(previewSourceRec.width, previewSourceRec.height);
-
-	BeginTextureMode(previewRender);
-		Vector2 drawIndex = {0,0};
-
-		// BLOCK_I
-		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 0");
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_I]);
-
-		currentBlockType = BLOCK_J;
-		currentBlockPos = (Vector2) {7, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-
-		currentBlockType = BLOCK_L;
-		currentBlockPos = (Vector2) {13, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-
-		currentBlockType = BLOCK_O;
-		currentBlockPos = (Vector2) {19, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-
-		currentBlockType = BLOCK_S;
-		currentBlockPos = (Vector2) {25, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-
-		currentBlockType = BLOCK_T;
-		currentBlockPos = (Vector2) {31, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-
-		currentBlockType = BLOCK_Z;
-		currentBlockPos = (Vector2) {37, 1};
-		updateBlock(currentBlockRotation, currentBlockType);
-		for (int w = 0; w < 4; w++) {
-			for (int h = 0; h < 4; h++) {
-				if (currentBlock[w][h]) {
-					drawElement(
-					(currentBlockPos.x + h) * ELEMENT_SIZE,
-					(currentBlockPos.y + w) * ELEMENT_SIZE,
-					tColors[currentBlockType]
-					);
-				}
-			}
-		}
-	EndTextureMode();
 
 	Music soundtrack = LoadMusicStream("res/soundtrack.mp3");
-	PlayMusicStream(soundtrack);
+	// PlayMusicStream(soundtrack);
 
 	SetAudioStreamVolume(soundtrack.stream, 0.2f);
 	soundtrack.looping = true;
@@ -373,7 +499,8 @@ void appMain()
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
-	while (!isGameOver && !WindowShouldClose())
+	//while (!isGameOver && !WindowShouldClose())
+	while (!WindowShouldClose())
 	{
 		// Update
 		//----------------------------------------------------------------------------------
@@ -448,7 +575,7 @@ void appMain()
 						fieldContent[posX][posY] = currentBlockType;
 					}
 				}
-				clearLines(LinesCleared);
+				clearLines();
 				spawnTetromino();
 			}
 			lastTick = GetTime();
@@ -487,9 +614,10 @@ void appMain()
 
 			// Draw Preview
 			DrawTexturePro(previewRender.texture, 
-			(Rectangle) {0, 0, 120, -120},
-			(Rectangle) {screenWidth / 2 + 7 * ELEMENT_SIZE, screenHeight / 2 - 9 * ELEMENT_SIZE, 120, 120},
-			(Vector2) {60, 60}, nextBlockRotation * 90.0f, WHITE);
+			(Rectangle) {120 * (nextBlockType - 1), 120 * (nextBlockRotation - 1), 120, -120},
+			(Rectangle) {600, 120, 120, 120},
+			(Vector2) {60, 60}, 0.0f, WHITE);
+
 
 		EndTextureMode();
 
@@ -501,8 +629,20 @@ void appMain()
 			DrawTexturePro(fieldRender.texture, (Rectangle) {0, 0, screenWidth, -screenHeight}, (Rectangle) {GetScreenWidth()/2, GetScreenHeight()/2, GetScreenWidth(), GetScreenHeight()}, 
 			(Vector2) {GetScreenWidth()/2, GetScreenHeight()/2}, 0.0f, WHITE);
 
+
 			DrawText(TextFormat("Score: %d", LinesCleared), 10, 10, 18, RAYWHITE);
 			DrawText(TextFormat("FPS: %d", GetFPS()), GetScreenWidth() - 75, 10, 18, RAYWHITE);
+
+			DrawText(TextFormat("Next Block: %d", nextBlockType), GetScreenWidth() / 2 + 7 * ELEMENT_SIZE, 10, 18, RAYWHITE);
+
+			// ! DEBUG RENDERING
+			DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
+			// Draw Preview
+			DrawTexturePro(previewRender.texture, 
+			(Rectangle) {0, 0, previewSourceRec.width, -previewSourceRec.height},
+			previewSourceRec,
+			(Vector2) {0, 0}, 0.0f, WHITE);
+			// ! DEBUG RENDERING
 
 			// Draw Soundtrack Timeline
 			DrawText("Soundtrack made by Melody Ayres-Griffiths", GetScreenWidth() - 382, GetScreenHeight() - 25, 18, WHITE);
@@ -515,7 +655,6 @@ void appMain()
 	// De-Initialization
 	//--------------------------------------------------------------------------------------
 	UnloadRenderTexture(fieldRender);
-	UnloadRenderTexture(previewRender);
 
 	UnloadMusicStream(soundtrack);
 

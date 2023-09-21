@@ -203,61 +203,61 @@ void renderPreviewTexture()
 
 		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 0};
 		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 0");
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
 
 		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 1");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
 
 		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 2");
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
 		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_O]);
 
 		drawIndex = (Vector2) {18 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK O Preview Rotation 3");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_L]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_O]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_O]);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
-		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 0};
+		drawIndex = (Vector2) {24.5f * ELEMENT_SIZE, 0.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 0");
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
 
-		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {24.5f * ELEMENT_SIZE, 6.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 1");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
 
-		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {24.5f * ELEMENT_SIZE, 12.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 2");
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_S]);
 
-		drawIndex = (Vector2) {24 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {24.5f * ELEMENT_SIZE, 18.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK S Preview Rotation 3");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_S]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_S]);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 

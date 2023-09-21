@@ -112,9 +112,6 @@ void renderPreviewTexture()
 
 	BeginTextureMode(previewRender);
 		Vector2 drawIndex = {0,0};
-
-		//DrawRectangle(0, 0, previewSourceRec.width, previewSourceRec.height, BLACK);
-
 		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 0");
 		drawElement(drawIndex.x + 40, drawIndex.y + 20, tColors[BLOCK_I]);
 		drawElement(drawIndex.x + 40, drawIndex.y + 40, tColors[BLOCK_I]);
@@ -145,7 +142,6 @@ void renderPreviewTexture()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		drawIndex = (Vector2) {6.5f * ELEMENT_SIZE, 0.5f * ELEMENT_SIZE};
-
 		TraceLog(LOG_INFO, "Drawing BLOCK J Preview Rotation 0");
 		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_J]);
 		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_J]);

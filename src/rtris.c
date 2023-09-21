@@ -261,33 +261,33 @@ void renderPreviewTexture()
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
-		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 0};
+		drawIndex = (Vector2) {30.5f * ELEMENT_SIZE, 0.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 0");
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
 
-		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 6 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {30.5f * ELEMENT_SIZE, 6.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 1");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
 
-		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 12 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {30.5f * ELEMENT_SIZE, 12.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 2");
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2.5f * ELEMENT_SIZE, tColors[BLOCK_T]);
 
-		drawIndex = (Vector2) {30 * ELEMENT_SIZE, 18 * ELEMENT_SIZE};
+		drawIndex = (Vector2) {30.5f * ELEMENT_SIZE, 18.5f * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK T Preview Rotation 3");
-		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
-		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 1.5f * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_T]);
+		drawElement(drawIndex.x + 2.5f * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_T]);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 

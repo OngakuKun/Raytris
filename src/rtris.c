@@ -113,31 +113,31 @@ void renderPreviewTexture()
 	BeginTextureMode(previewRender);
 		Vector2 drawIndex = {0,0};
 		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 0");
-		drawElement(drawIndex.x + 40, drawIndex.y + 20, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 40, drawIndex.y + 40, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 40, drawIndex.y + 60, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 40, drawIndex.y + 80, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_I]);
 
 		drawIndex = (Vector2) {0, 6 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 1");
-		drawElement(drawIndex.x + 20, drawIndex.y + 40, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 40, drawIndex.y + 40, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 60, drawIndex.y + 40, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 80, drawIndex.y + 40, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
 
 		drawIndex = (Vector2) {0, 12 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 2");
-		drawElement(drawIndex.x + 60, drawIndex.y + 20, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 60, drawIndex.y + 40, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 60, drawIndex.y + 60, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 60, drawIndex.y + 80, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 1 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 2 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 4 * ELEMENT_SIZE, tColors[BLOCK_I]);
 
 		drawIndex = (Vector2) {0, 18 * ELEMENT_SIZE};
 		TraceLog(LOG_INFO, "Drawing BLOCK I Preview Rotation 3");
-		drawElement(drawIndex.x + 20, drawIndex.y + 60, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 40, drawIndex.y + 60, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 60, drawIndex.y + 60, tColors[BLOCK_I]);
-		drawElement(drawIndex.x + 80, drawIndex.y + 60, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 1 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 2 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 3 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
+		drawElement(drawIndex.x + 4 * ELEMENT_SIZE, drawIndex.y + 3 * ELEMENT_SIZE, tColors[BLOCK_I]);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -13,6 +13,6 @@
 // WINDOW DIMENSIONS
 //----------------------------------------------------------------------------------
 #define WINDOW_WIDTH       800
-#define WINDOW_HEIGHT      480
+#define WINDOW_HEIGHT      450
 
 #endif // RAYTRIS_DEFINES_H

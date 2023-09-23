@@ -1,9 +1,8 @@
 #include "defines.h"
-#include "rtris.h"
 
 int main()
 {
-	appMain();
+	printf("Hello from main.c");
 
 	return 0;
 }
